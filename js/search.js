@@ -1,7 +1,5 @@
-//version 0.23
+//version 0.24
 $(document).ready(()=>{
-  const serverIP = `YOUR-PORT-LISTENER-SERVER-IP-HERE`;
-
 
   $('#mobile-calltoaction').click(()=>{
     $('nav').css("display", "block");
@@ -38,6 +36,7 @@ $(document).ready(()=>{
   let titleID = 0;
   let selectedSong;
   let lastSongSelected = 54321;
+  const serverIP = `https://justyunis.xyz/qport/`;
 
   function videoSearch(search){
     termBody = {"term":`${search}`};
@@ -94,6 +93,8 @@ $(document).ready(()=>{
     }).then((response)=>{
       if(response.status==503){
         alert(`No reciever connected to send song to...`);
+      }else{
+        alert(`SONG SUBMITTED!`);
       }
     });
   })
