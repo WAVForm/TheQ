@@ -10,7 +10,6 @@ Yeah okay I guess you've never been in a car with an AUX cord that gets passed a
 
 If you want to get this up and running, edit the ***serverIP*** constants to whatever yours are inside the **search.js** and **portlistenCLIENT.js**, as well as the ***path to your VLC install*** inside the **portlistenCLIENT.js**. After that, make a server that serves the site data and runs the portlistenSERVER.js as a subdirectory or subdomain to avoid CORS, then from there you should be all good.
 
+*NOTE: if you are having issues streaming YouTube videos you will need to replace the youtube.luac inside .../VLC/lua/playlist with [this one](https://github.com/videolan/vlc/blob/master/share/lua/playlist/youtube.lua).*
 
-###### NOTE: if you are having issues streaming YouTube videos you will need to replace the youtube.luac inside .../VLC/lua/playlist with [this one](https://github.com/videolan/vlc/blob/master/share/lua/playlist/youtube.lua). 
-
-###### NOTE: Raising the Network Caching value inside VLC's preferences might reduce stuttering at the cost of longer waits between each song. 
+*NOTE: Raising the Network Caching value inside VLC's preferences might reduce stuttering at the cost of longer waits between each song.*
