@@ -1,5 +1,5 @@
 # A website that queues music to a client.
-#### REQUIREMENTS : [Node 19.0.0](https://nodejs.org/en/) or install [node-fetch](https://www.npmjs.com/package/node-fetch) [VLC](https://www.videolan.org/vlc/) on client, [Express](https://www.npmjs.com/package/express) and [Body-Parser](https://www.npmjs.com/package/body-parser) on client and server
+#### REQUIREMENTS : [Node 19.0.0](https://nodejs.org/en/) or install [node-fetch](https://www.npmjs.com/package/node-fetch), [VLC](https://www.videolan.org/vlc/) on client, [Express](https://www.npmjs.com/package/express) and [Body-Parser](https://www.npmjs.com/package/body-parser) on client and server
 
 I made this website so that people coming over to my house can queue up and listen to whatever music they want over my speakers. 
 
