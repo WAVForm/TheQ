@@ -1,48 +1,50 @@
 const http = require(`http`);
-const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
+const ngrok = require('ngrok');
 const {exec} = require('child_process');
-
-const clientServerIP = `YOUR-CLIENT-PUBLIC-IP-HERE`;
-const webServerIP = `YOUR-PORT-LISTENER-SERVER-IP-HERE`;
-const vlcPath = `YOUR-PATH-TO-VLC-HERE`;
-
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-app.use(bodyParser.json());
 
 const host = `localhost`;
 const port = 8000;
-var sendingBody = {"host":clientServerIP};
+let clientServerIP = ``;
+const webServerIP = `YOUR-SERVER-HERE`;
 
-app.post('/', (req, res)=>{
-    console.log("\n\n"+JSON.stringify(req.body.url));
-
-    exec(`cd ${vlcPath} && vlc ${req.body.url} --one-instance --playlist-enqueue`, (error, stdout, stderr) => {
-        if (error) {
-            console.log(`error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.log(`stderr: ${stderr}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`);
-    });
-
-        res.status(200);
-        res.setHeader("Content-Type","text/plain");
-        res.send("OK").end();    
-})
-
-const server = http.createServer(app);
-server.listen(port, host, ()=>{
-    console.log(`Server running on http://${host}:${port}`)
-    fetch(webServerIP+`newhost`, {
+(async function() {
+    const url = await ngrok.connect(port);
+    let body = {"host":url}
+    console.log(body);
+    fetch(webServerIP+`/newhost`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'}, 
-        body: JSON.stringify(sendingBody)
+        body: JSON.stringify(body)
       });
-});
+})();
+
+const listener = function(req, res){
+    let data = "";
+    req.on('data', (chunk)=>{
+        data += chunk;
+    })
+    req.on('end', ()=>{
+        let body = JSON.parse(data);
+    if(req.method == `POST` && req.url == `/song`){
+        console.log(JSON.stringify(body.url));
+        exec(`cd "C:\\Program Files\\VideoLAN\\VLC" && vlc ${body.url} --one-instance --playlist-enqueue`, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+            if (stderr) {
+                console.log(`stderr: ${stderr}`);
+                return;
+            }
+            console.log(`stdout: ${stdout}`);
+        });
+    }
+
+    res.writeHead(200, {'Content-Type':'text/plain'})
+    res.end(`OK`); 
+})}
+
+const serv = http.createServer(listener);
+serv.listen(port,host,()=>{
+    console.log(`Server running on http://${host}:${port}`)
+})
