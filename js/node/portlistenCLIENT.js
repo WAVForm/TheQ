@@ -27,7 +27,7 @@ const listener = function(req, res){
         let body = JSON.parse(data);
     if(req.method == `POST` && req.url == `/song`){
         console.log(JSON.stringify(body.url));
-        exec(`cd "C:\\Program Files\\VideoLAN\\VLC" && vlc ${body.url} --one-instance --playlist-enqueue`, (error, stdout, stderr) => {
+        exec(`cd "YOUR-VLC-PATH-INSTALL" && vlc ${body.url} --one-instance --playlist-enqueue`, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
