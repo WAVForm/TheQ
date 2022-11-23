@@ -19,7 +19,6 @@ $(document).ready(()=>{
   });
 
   $('#song-search-button').click((event)=>{
-    //event.preventDefault() 
     let search = $("#song-search").val()
     videoSearch(search);
   }) 
@@ -36,11 +35,10 @@ $(document).ready(()=>{
   let titleID = 0;
   let selectedSong;
   let lastSongSelected = 54321;
-  const serverIP = `https://justyunis.xyz/qport/`;
+  const serverIP = `YOUR-SERVER-HERE`;
 
   function videoSearch(search){
     termBody = {"term":`${search}`};
-    //console.log(search);
     fetch(serverIP+`songsearch`, {
       method: "POST",
       headers: {'Content-Type': 'application/json'}, 
@@ -48,9 +46,7 @@ $(document).ready(()=>{
     }).then((response)=>{
       return response.text();
     }).then((string)=>{
-      //console.log(string);
       songs = JSON.parse(string);
-      //console.log(songs);
       titleID=0;
       $(`#videos`).html(``);
       for(i=0; i<songs.length;i++){
@@ -85,7 +81,6 @@ $(document).ready(()=>{
 
 
   $('#videos').on('click','#submit-button',(event)=>{
-    //console.log(JSON.stringify(selectedSong));
     fetch(serverIP, {
       method: "POST",
       headers: {'Content-Type': 'application/json'}, 
