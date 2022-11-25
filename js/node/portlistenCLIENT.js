@@ -21,6 +21,8 @@ async function getTunnel() {
     setTimeout(getTunnel, 1800000);
 }
 
+getTunnel();
+
 const listener = function(req, res){
     let data = "";
     req.on('data', (chunk)=>{
