@@ -5,18 +5,21 @@ const {exec} = require('child_process');
 const host = `localhost`;
 const port = 8000;
 let clientServerIP = ``;
-const webServerIP = `YOUR-SERVER-HERE`;
+const webServerIP = `YOUR-SERVER-IP-HERE`;
 
-(async function() {
+async function getTunnel() {
+    await ngrok.disconnect();
+    await ngrok.kill();
     const url = await ngrok.connect(port);
     let body = {"host":url}
     console.log(body);
-    fetch(webServerIP+`/newhost`, {
+    fetch(webServerIP+`newhost`, {
         method: "POST",
         headers: {'Content-Type': 'application/json'}, 
         body: JSON.stringify(body)
-      });
-})();
+    });
+    setTimeout(getTunnel, 1800000);
+}
 
 const listener = function(req, res){
     let data = "";
@@ -27,7 +30,8 @@ const listener = function(req, res){
         let body = JSON.parse(data);
     if(req.method == `POST` && req.url == `/song`){
         console.log(JSON.stringify(body.url));
-        exec(`cd "YOUR-VLC-PATH-INSTALL" && vlc ${body.url} --one-instance --playlist-enqueue`, (error, stdout, stderr) => {
+
+        exec(`cd "YOUR-VLC-PATH-HERE" && vlc ${body.url} --one-instance --playlist-enqueue`, (error, stdout, stderr) => {
             if (error) {
                 console.log(`error: ${error.message}`);
                 return;
